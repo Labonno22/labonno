@@ -1,0 +1,701 @@
+```html
+<!DOCTYPE html>
+<html lang="bn" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labonno Barman | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Poppins & Hind Siliguri) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0a0f1d',
+                        lightbg: '#f8fafc',
+                        carddark: 'rgba(15, 23, 42, 0.75)',
+                        cardlight: 'rgba(255, 255, 255, 0.85)',
+                        neoncyan: '#06b6d4',
+                        neonblue: '#3b82f6',
+                        emeraldaccent: '#10b981'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'],
+                        heading: ['Poppins', 'Hind Siliguri', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism Styles for Dark & Light Mode */
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .glass-nav {
+            background: rgba(10, 15, 29, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        .dark ::-webkit-scrollbar-track { background: #0a0f1d; }
+        .light ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-200 dark:bg-darkbg dark:text-slate-200 light:bg-lightbg light:text-slate-800 transition-colors duration-300 font-sans selection:bg-cyan-500 selection:text-white antialiased">
+
+    <!-- Ambient Glow Effects -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-cyan-600/15 rounded-full filter blur-[120px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 right-10 w-96 h-96 bg-emerald-600/15 rounded-full filter blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#hero" class="text-xl sm:text-2xl font-bold font-heading tracking-tight flex items-center gap-2 group">
+                <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-code text-sm"></i>
+                </span>
+                <span class="dark:text-white text-slate-900">Labonno <span class="text-cyan-500">Barman</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-6 font-medium text-sm dark:text-slate-300 text-slate-700">
+                <a href="#about" class="hover:text-cyan-500 transition-colors" data-en="About" data-bn="সম্পর্কে">সম্পর্কে</a>
+                <a href="#education" class="hover:text-cyan-500 transition-colors" data-en="Education" data-bn="শিক্ষা">শিক্ষা</a>
+                <a href="#skills" class="hover:text-cyan-500 transition-colors" data-en="Skills" data-bn="দক্ষতা">দক্ষতা</a>
+                <a href="#portfolio" class="hover:text-cyan-500 transition-colors" data-en="Showcase" data-bn="গ্যালারি">গ্যালারি</a>
+                <a href="#contact" class="hover:text-cyan-500 transition-colors" data-en="Contact" data-bn="যোগাযোগ">যোগাযোগ</a>
+            </nav>
+
+            <!-- Action Controls: Language Switcher, Theme Switcher, CTA -->
+            <div class="flex items-center gap-3">
+                <!-- Language Toggle Button -->
+                <button id="lang-toggle" class="px-3 py-1.5 rounded-lg border border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-cyan-400 bg-slate-200 text-slate-800 font-mono text-xs font-semibold hover:border-cyan-500 transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-language text-sm"></i>
+                    <span id="lang-text">EN</span>
+                </button>
+
+                <!-- Dark / Light Theme Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle Theme" class="w-9 h-9 rounded-lg border border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-amber-400 bg-slate-200 text-slate-800 hover:border-cyan-500 transition-all flex items-center justify-center">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
+
+                <!-- Desktop CTA -->
+                <a href="#contact" class="hidden sm:inline-flex px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium text-sm shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all" data-en="Connect" data-bn="যোগাযোগ">
+                    যোগাযোগ
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" aria-label="Toggle menu" class="lg:hidden text-2xl dark:text-slate-300 text-slate-700 p-1">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-card border-t border-slate-800 px-6 py-6 flex flex-col gap-3 text-center">
+            <a href="#about" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="About" data-bn="সম্পর্কে">সম্পর্কে</a>
+            <a href="#education" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Education" data-bn="শিক্ষা">শিক্ষা</a>
+            <a href="#skills" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Skills" data-bn="দক্ষতা">দক্ষতা</a>
+            <a href="#portfolio" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Showcase" data-bn="গ্যালারি">গ্যালারি</a>
+            <a href="#contact" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Contact" data-bn="যোগাযোগ">যোগাযোগ</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center pt-24 pb-12 px-6 relative">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Left Bio Column -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <!-- Location Tag -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full dark:bg-slate-800/80 bg-slate-200 border dark:border-slate-700 border-slate-300 text-cyan-500 text-xs sm:text-sm font-medium">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span data-en="Thakurgaon, Bangladesh" data-bn="ঠাকুরগাঁও, বাংলাদেশ">ঠাকুরগাঁও, বাংলাদেশ</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-heading tracking-tight leading-tight dark:text-white text-slate-900">
+                    <span data-en="Hi, I'm" data-bn="হাই, আমি">হাই, আমি</span> <br>
+                    <span class="gradient-text">লাবণ্য বর্মন</span>
+                </h1>
+
+                <!-- Dynamic Typing Banner -->
+                <div class="text-lg sm:text-2xl font-medium dark:text-slate-300 text-slate-700 h-8 flex items-center justify-center lg:justify-start">
+                    <span id="typing-text" class="text-cyan-500 font-semibold"></span>
+                    <span class="animate-ping inline-block w-1.5 h-6 bg-cyan-500 ml-1"></span>
+                </div>
+
+                <p class="dark:text-slate-400 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed" data-en="Student, Guitarist, Visual Content Creator, and Tech Enthusiast from Thakurgaon, Bangladesh. Dedicated to academic growth and creative exploration." data-bn="ঠাকুরগাঁওয়ের একজন বিজ্ঞান বিভাগের শিক্ষার্থী, গিটারিস্ট, ভিজ্যুয়াল কনটেন্ট ক্রিয়েটর এবং প্রযুক্তি প্রেমী। পড়াশোনার পাশাপাশি সৃজনশীল কাজে নিজেকে যুক্ত রাখতে ভালোবাসি।">
+                    ঠাকুরগাঁওয়ের একজন বিজ্ঞান বিভাগের শিক্ষার্থী, গিটারিস্ট, ভিজ্যুয়াল কনটেন্ট ক্রিয়েটর এবং প্রযুক্তি প্রেমী। পড়াশোনার পাশাপাশি সৃজনশীল কাজে নিজেকে যুক্ত রাখতে ভালোবাসি।
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#portfolio" class="px-7 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                        <span data-en="View Showcase" data-bn="গ্যালারি দেখুন">গ্যালারি দেখুন</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                    <a href="#contact" class="px-7 py-3 rounded-xl dark:bg-slate-800/80 bg-slate-200 dark:text-slate-200 text-slate-800 border dark:border-slate-700 border-slate-300 font-semibold hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span data-en="Get In Touch" data-bn="যোগাযোগ করুন">যোগাযোগ করুন</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Hero Card / Profile Display -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-md">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-3xl blur-xl opacity-30"></div>
+                    
+                    <div class="relative glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+                        <div class="relative w-36 h-36 mx-auto rounded-2xl overflow-hidden border-2 border-cyan-500/50 p-1 dark:bg-slate-900 bg-slate-100">
+                            <div class="w-full h-full rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 flex flex-col items-center justify-center text-white text-center">   
+                         <img src="https://i.ibb.co.com/20RxNwSV/image.jpg" alt="Labonno Barman" class="w-full h-full object-cover rounded-2xl">
+</span>
+                            </div>
+                        </div>
+
+                        <div class="text-center space-y-2">
+                            <h3 class="text-xl font-bold dark:text-white text-slate-900 font-heading">Labonno Barman</h3>
+                            <p class="text-xs text-cyan-500 font-mono" data-en=" Student | Creative Enthusiast" data-bn=" শিক্ষার্থী | ক্রিয়েটিভ স্পিরিট">শিক্ষার্থী | ক্রিয়েটিভ স্পিরিট</p>
+                        </div>
+
+                        <!-- Education Quick Highlights -->
+                        <div class="space-y-2 pt-2">
+                            <div class="p-3 rounded-xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 flex items-center justify-between text-xs">
+                                <span class="dark:text-slate-400 text-slate-600 font-medium" data-en="SSC Result:" data-bn="এসএসসি ফলাফল:">এসএসসি ফলাফল:</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-bold border border-emerald-500/30">
+                                    <i class="fa-solid fa-star text-amber-400 mr-1"></i>Golden GPA-5
+                                </span>
+                            </div>
+                            <div class="p-3 rounded-xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 flex items-center justify-between text-xs">
+                                <span class="dark:text-slate-400 text-slate-600 font-medium" data-en="HSC Status:" data-bn="এইচএসসি স্থিতি:">এইচএসসি স্থিতি:</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-500 font-bold border border-cyan-500/30" data-en="Science Stream" data-bn="বিজ্ঞান বিভাগ">
+                                    বিজ্ঞান বিভাগ
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 px-6 dark:bg-slate-950/40 bg-slate-100/60 border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Academic Journey" data-bn="শিক্ষাগত যোগ্যতা">শিক্ষাগত যোগ্যতা</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Education Badges" data-bn="শিক্ষা সম্পর্কিত অর্জন">শিক্ষা সম্পর্কিত অর্জন</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- SSC Badge -->
+                <div class="glass-card p-8 rounded-2xl border-2 border-emerald-500/40 relative overflow-hidden group hover:shadow-xl transition-all">
+                    <div class="absolute -top-3 -right-3 w-16 h-16 bg-emerald-500/20 rounded-full blur-lg"></div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-mono text-emerald-500" data-en="Completed" data-bn="উত্তীর্ণ">উত্তীর্ণ</span>
+                            <h4 class="text-xl font-bold dark:text-white text-slate-900 font-heading">SSC Examination</h4>
+                        </div>
+                    </div>
+                    <div class="my-4 p-4 rounded-xl dark:bg-slate-900/90 bg-emerald-50/80 border border-emerald-500/30 flex items-center justify-between">
+                        <span class="dark:text-slate-300 text-slate-700 font-semibold text-sm" data-en="Achievement:" data-bn="অর্জিত ফলাফল:">অর্জিত ফলাফল:</span>
+                        <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-500/30">
+                            Golden GPA-5.00
+                        </span>
+                    </div>
+                    <p class="dark:text-slate-400 text-slate-600 text-sm leading-relaxed" data-en="Achieved Golden GPA 5.00 with distinction in Secondary School Certificate examination." data-bn="মাধ্যমিক স্কুল সার্টিফিকেট পরীক্ষায় সকল বিষয়ে কৃতিত্বের সাথে গোল্ডেন জিপিএ ৫.০০ অর্জিত।">
+                        মাধ্যমিক স্কুল সার্টিফিকেট পরীক্ষায় সকল বিষয়ে কৃতিত্বের সাথে গোল্ডেন জিপিএ ৫.০০ অর্জিত।
+                    </p>
+                </div>
+
+                <!-- HSC Badge -->
+                <div class="glass-card p-8 rounded-2xl border-2 border-cyan-500/40 relative overflow-hidden group hover:shadow-xl transition-all">
+                    <div class="absolute -top-3 -right-3 w-16 h-16 bg-cyan-500/20 rounded-full blur-lg"></div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-mono text-cyan-500" data-en="Current Academic Track" data-bn="চলমান পড়াশোনা">চলমান পড়াশোনা</span>
+                            <h4 class="text-xl font-bold dark:text-white text-slate-900 font-heading">HSC Science</h4>
+                        </div>
+                    </div>
+                    <div class="my-4 p-4 rounded-xl dark:bg-slate-900/90 bg-cyan-50/80 border border-cyan-500/30 flex items-center justify-between">
+                        <span class="dark:text-slate-300 text-slate-700 font-semibold text-sm" data-en="Group:" data-bn="শাখা:">শাখা:</span>
+                        <span class="px-3 py-1 rounded-full bg-cyan-500 text-white text-xs font-bold shadow-md shadow-cyan-500/30" data-en="Science Stream" data-bn="বিজ্ঞান বিভাগ">
+                            বিজ্ঞান বিভাগ
+                        </span>
+                    </div>
+                    <p class="dark:text-slate-400 text-slate-600 text-sm leading-relaxed" data-en="Currently pursuing Higher Secondary Certificate in Science focusing on Physics, Chemistry, and Mathematics." data-bn="পদার্থবিজ্ঞান, রসায়ন ও উচ্চতর গণিত নিয়ে উচ্চ মাধ্যমিক বিজ্ঞান বিভাগে পড়াশোনা চলমান।">
+                        পদার্থবিজ্ঞান, রসায়ন ও উচ্চতর গণিত নিয়ে উচ্চ মাধ্যমিক বিজ্ঞান বিভাগে পড়াশোনা চলমান।
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6 relative border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Capabilities" data-bn="দক্ষতা ও শখ">দক্ষতা ও শখ</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Skills Breakdown" data-bn="আমার স্কিলসমূহ">আমার স্কিলসমূহ</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Photography -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Photography" data-bn="ফটোগ্রাফি">ফটোগ্রাফি</h4>
+                        </div>
+                        <span class="text-xs font-mono text-cyan-500">85%</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Nature, portraits, light framing, and composition." data-bn="প্রকৃতি, পোর্ট্রেট এবং ফ্রেম কম্পোজিশন।">প্রকৃতি, পোর্ট্রেট এবং ফ্রেম কম্পোজিশন।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-cyan-500 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+
+                <!-- Guitar Playing (NEW) -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform border border-amber-500/30">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-guitar"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Guitar Playing" data-bn="গিটার বাজানো">গিটার বাজানো</h4>
+                        </div>
+                        <span class="text-xs font-mono text-amber-500">Acoustic</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Acoustic chord progressions, rhythm, and melodies." data-bn="একোস্টিক গিটার কর্ড, রিদম এবং সুরের চর্চা।">একোস্টিক গিটার কর্ড, রিদম এবং সুরের চর্চা।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500 rounded-full" style="width: 75%"></div>
+                    </div>
+                </div>
+
+                <!-- Fast Typing (UPDATED 30+ WPM) -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-keyboard"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Fast Typing" data-bn="দ্রুত টাইপিং">দ্রুত টাইপিং</h4>
+                        </div>
+                        <span class="text-xs font-mono text-emerald-500">30+ WPM</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Accurate speed typing in Bangla and English." data-bn="বাংলা ও ইংরেজিতে নির্ভুল এবং দ্রুত টাইপিং।">বাংলা ও ইংরেজিতে নির্ভুল এবং দ্রুত টাইপিং।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-emerald-500 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <!-- Computer & IT -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-desktop"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Computer & IT" data-bn="কম্পিউটার ও আইটি">কম্পিউটার ও আইটি</h4>
+                        </div>
+                        <span class="text-xs font-mono text-blue-500">88%</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="MS Office, internet research, system maintenance." data-bn="কম্পিউটার পরিচালনা, ইন্টারনেট ও প্রয়োজনীয় সফটওয়্যার ব্যবহার।">কম্পিউটার পরিচালনা, ইন্টারনেট ও প্রয়োজনীয় সফটওয়্যার ব্যবহার।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-blue-500 rounded-full" style="width: 88%"></div>
+                    </div>
+                </div>
+
+                <!-- Photo & Video Editing -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Editing" data-bn="ফটো ও ভিডিও এডিটিং">ফটো ও ভিডিও এডিটিং</h4>
+                        </div>
+                        <span class="text-xs font-mono text-purple-500">80%</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Color grading, photo retouching, and short clips." data-bn="ছবি রিটাচিং, কালার টিউনিং ও কনটেন্ট এডিটিং।">ছবি রিটাচিং, কালার টিউনিং ও কনটেন্ট এডিটিং।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-purple-500 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <!-- Traveling -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-rose-500/10 text-rose-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-compass"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Traveling" data-bn="ভ্রমণ ও অন্বেষণ">ভ্রমণ ও অন্বেষণ</h4>
+                        </div>
+                        <span class="text-xs font-mono text-rose-500">Explorer</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Exploring Bangladesh nature and cultural spots." data-bn="নতুন জায়গা ঘুরে দেখা এবং প্রকৃতির সৌন্দর্য উপভোগ করা।">নতুন জায়গা ঘুরে দেখা এবং প্রকৃতির সৌন্দর্য উপভোগ করা।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-rose-500 rounded-full" style="width: 95%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Gallery Showcase -->
+    <section id="portfolio" class="py-20 px-6 dark:bg-slate-950/40 bg-slate-100/60 border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Portfolio Showcase" data-bn="গ্যালারি শেকেস">গ্যালারি শেকেস</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Photography, Awards & Certificates" data-bn="ছবি, অ্যাওয়ার্ডস ও সার্টিফিকেটসমূহ">ছবি, অ্যাওয়ার্ডস ও সার্টিফিকেটসমূহ</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex justify-center gap-2 sm:gap-3 mb-10 flex-wrap">
+                <button class="filter-btn active px-4 py-2 rounded-full text-xs font-semibold bg-cyan-500 text-white shadow-md transition-all" data-filter="all" data-en="All" data-bn="সবগুলো">সবগুলো</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 hover:bg-cyan-500 hover:text-white transition-all" data-filter="photography" data-en="Photography" data-bn="ফটোগ্রাফি">ফটোগ্রাফি</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 hover:bg-cyan-500 hover:text-white transition-all" data-filter="travel" data-en="Travel" data-bn="ভ্রমণ">ভ্রমণ</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 hover:bg-cyan-500 hover:text-white transition-all" data-filter="awards" data-en="Awards" data-bn="পুরস্কার">পুরস্কার</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700 hover:bg-cyan-500 hover:text-white transition-all" data-filter="certificates" data-en="Certificates" data-bn="সার্টিফিকেট">সার্টিফিকেট</button>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Photography Card -->
+                <div class="gallery-item photography glass-card rounded-2xl overflow-hidden group">
+                    <div class="relative h-56 bg-gradient-to-br from-cyan-950 to-slate-900 flex items-center justify-center p-6 text-center">
+                        <i class="fa-solid fa-camera-retro text-5xl text-cyan-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 text-cyan-400 text-[10px] font-mono">Photography</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Sunset & Nature Shots" data-bn="প্রকৃতি ও সূর্যাস্তের ছবি">প্রকৃতি ও সূর্যাস্তের ছবি</h4>
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-1" data-en="Captured natural light landscape frames." data-bn="প্রাকৃতিক আলো ও ল্যান্ডস্কেপ ফটোগ্রাফি।">প্রাকৃতিক আলো ও ল্যান্ডস্কেপ ফটোগ্রাফি।</p>
+                    </div>
+                </div>
+
+                <!-- Travel Card -->
+                <div class="gallery-item travel glass-card rounded-2xl overflow-hidden group">
+                    <div class="relative h-56 bg-gradient-to-br from-emerald-950 to-slate-900 flex items-center justify-center p-6 text-center">
+                        <i class="fa-solid fa-map-location-dot text-5xl text-emerald-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 text-emerald-400 text-[10px] font-mono">Travel</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Thakurgaon & Beyond" data-bn="ঠাকুরগাঁও ও অন্যান্য জেলা">ঠাকুরগাঁও ও অন্যান্য জেলা</h4>
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-1" data-en="Memories from northern travel spots." data-bn="উত্তরাঞ্চলের সুন্দর স্থান ভ্রমণের স্মৃতিচিত্র।">উত্তরাঞ্চলের সুন্দর স্থান ভ্রমণের স্মৃতিচিত্র।</p>
+                    </div>
+                </div>
+
+                <!-- Awards Card -->
+                <div class="gallery-item awards glass-card rounded-2xl overflow-hidden group border border-amber-500/30">
+                    <div class="relative h-56 bg-gradient-to-br from-amber-950 to-slate-900 flex items-center justify-center p-6 text-center">
+                        <i class="fa-solid fa-trophy text-5xl text-amber-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 text-amber-400 text-[10px] font-mono">Awards</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Academic Distinction" data-bn="মেধা ও কৃতি সম্মাননা">মেধা ও কৃতি সম্মাননা</h4>
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-1" data-en="Recognitions for SSC Golden GPA-5." data-bn="এসএসসি পরীক্ষায় গোল্ডেন জিপিএ-৫ পাওয়ার স্বীকৃতি।">এসএসসি পরীক্ষায় গোল্ডেন জিপিএ-৫ পাওয়ার স্বীকৃতি।</p>
+                    </div>
+                </div>
+
+                <!-- Certificates Card -->
+                <div class="gallery-item certificates glass-card rounded-2xl overflow-hidden group">
+                    <div class="relative h-56 bg-gradient-to-br from-blue-950 to-slate-900 flex items-center justify-center p-6 text-center">
+                        <i class="fa-solid fa-file-certificate text-5xl text-blue-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 text-blue-400 text-[10px] font-mono">Certificates</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Computer & IT Certification" data-bn="কম্পিউটার কোর্স সার্টিফিকেট">কম্পিউটার কোর্স সার্টিফিকেট</h4>
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-1" data-en="IT literacy and skill certificates." data-bn="কম্পিউটার দক্ষতা ও আইটি বিষয়ক কোর্স অর্জন।">কম্পিউটার দক্ষতা ও আইটি বিষয়ক কোর্স অর্জন।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Social Media Section -->
+    <section id="contact" class="py-20 px-6 relative border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Connect With Me" data-bn="যোগাযোগ">যোগাযোগ</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Social Profiles & Messages" data-bn="সোশ্যাল লিংক ও মেসেজ বক্সে মেসেজ পাঠান">সোশ্যাল লিংক ও মেসেজ পাঠান</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 max-w-5xl mx-auto">
+                <!-- Left Social Cards -->
+                <div class="lg:col-span-5 space-y-4">
+                    <!-- Facebook Profile Link -->
+                    <a href="https://www.facebook.com/mr.barman.22" target="_blank" rel="noopener noreferrer" class="glass-card p-5 rounded-2xl flex items-center justify-between group hover:border-blue-500/50 transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-500 flex items-center justify-center text-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-mono">Facebook</div>
+                                <div class="font-bold dark:text-white text-slate-900">mr.barman.22</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Instagram Profile Link -->
+                    <a href="https://www.instagram.com/mr_labonno_22?xtok=MTBtMjhjaGR4ODkwdQ==" target="_blank" rel="noopener noreferrer" class="glass-card p-5 rounded-2xl flex items-center justify-between group hover:border-pink-500/50 transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-500 flex items-center justify-center text-2xl group-hover:bg-pink-600 group-hover:text-white transition-all">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-mono">Instagram</div>
+                                <div class="font-bold dark:text-white text-slate-900">@mr_labonno_22</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-pink-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Location Box -->
+                    <div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 font-mono" data-en="Location" data-bn="ঠিকানা">ঠিকানা</div>
+                            <div class="font-bold dark:text-white text-slate-900" data-en="Thakurgaon, Bangladesh" data-bn="ঠাকুরগাঁও, বাংলাদেশ">ঠাকুরগাঁও, বাংলাদেশ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Contact Form -->
+                <div class="lg:col-span-7">
+                    <form id="https://formspree.io/f/xzeeeonv" class="glass-card p-8 rounded-2xl space-y-5">
+                        <div>
+                            <label class="block text-xs font-mono dark:text-slate-300 text-slate-700 mb-2" data-en="Your Name" data-bn="আপনার নাম">আপনার নাম</label>
+                            <input type="text" required placeholder="আপনার নাম লিখুন" class="w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 focus:outline-none focus:border-cyan-500 text-sm transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono dark:text-slate-300 text-slate-700 mb-2" data-en="Your Email" data-bn="আপনার ইমেইল">আপনার ইমেইল</label>
+                            <input type="email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 focus:outline-none focus:border-cyan-500 text-sm transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono dark:text-slate-300 text-slate-700 mb-2" data-en="Message" data-bn="বার্তাসমূহ">বার্তাসমূহ</label>
+                            <textarea rows="4" required placeholder="আপনার বার্তাটি লিখুন..." class="w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 focus:outline-none focus:border-cyan-500 text-sm transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm shadow-md shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
+                            <span data-en="Send Message" data-bn="মেসেজ পাঠান">মেসেজ পাঠান</span>
+                            <i class="fa-regular fa-paper-plane"></i>
+                        </button>
+
+                        <div id="form-message" class="hidden text-center text-xs text-emerald-500 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                            মেসেজটি সফলভাবে পাঠানো হয়েছে! ধন্যবাদ।
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 dark:bg-slate-950 bg-slate-200 border-t border-slate-800/40 text-center text-xs dark:text-slate-500 text-slate-600">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                © <span id="year"></span> Labonno Barman. All rights reserved.
+            </div>
+            <div class="flex items-center gap-1">
+                Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in Thakurgaon, Bangladesh
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        // Language Switcher (Bangla <-> English)
+        let currentLang = 'bn';
+        const langToggle = document.getElementById('lang-toggle');
+        const langText = document.getElementById('lang-text');
+
+        const phrasesBN = [
+            "এইচএসসি বিজ্ঞান বিভাগের শিক্ষার্থী",
+            "এসএসসি গোল্ডেন জিপিএ-৫ অর্জনকারী",
+            "একোস্টিক গিটার প্র্যাক্টিশনার",
+            "দ্রুত টাইপিং (30+ WPM)",
+            "ফটোগ্রাফি ও ট্রাভেলিং প্রেমী"
+        ];
+        const phrasesEN = [
+            "HSC Science Scholar",
+            "SSC Golden GPA-5 Achiever",
+            "Acoustic Guitarist",
+            "Speed Typist (30+ WPM)",
+            "Visual Photography Enthusiast"
+        ];
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'bn' ? 'en' : 'bn';
+            langText.textContent = currentLang === 'bn' ? 'EN' : 'BN';
+            
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-bn');
+            });
+
+            phraseIdx = 0;
+            charIdx = 0;
+        });
+
+        // Typing Effect Logic
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typingTextElement = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const phrases = currentLang === 'bn' ? phrasesBN : phrasesEN;
+            const currentPhrase = phrases[phraseIdx % phrases.length];
+
+            if (isDeleting) {
+                typingTextElement.textContent = currentPhrase.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typingTextElement.textContent = currentPhrase.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            if (!isDeleting && charIdx === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 2000);
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                setTimeout(typeEffect, 500);
+            } else {
+                setTimeout(typeEffect, isDeleting ? 40 : 90);
+            }
+        }
+        typeEffect();
+
+        // Dark / Light Mode Switcher
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        // Gallery Filter Buttons Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-cyan-500', 'text-white');
+                    b.classList.add('dark:bg-slate-800', 'bg-slate-200', 'dark:text-slate-300', 'text-slate-700');
+                });
+                btn.classList.add('active', 'bg-cyan-500', 'text-white');
+
+                const filter = btn.getAttribute('data-filter');
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Contact Form Logic
+        const contactForm = document.getElementById('contact-form');
+        const formMessage = document.getElementById('form-message');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formMessage.classList.remove('hidden');
+            contactForm.reset();
+            setTimeout(() => {
+                formMessage.classList.add('hidden');
+            }, 4000);
+        });
+    </script>
+</body>
+</html>
+```
