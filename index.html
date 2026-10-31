@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labonno Barman | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Poppins & Hind Siliguri) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0a0f1d',
+                        lightbg: '#f8fafc',
+                        carddark: 'rgba(15, 23, 42, 0.75)',
+                        cardlight: 'rgba(255, 255, 255, 0.85)',
+                        neoncyan: '#06b6d4',
+                        neonblue: '#3b82f6',
+                        emeraldaccent: '#10b981'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'],
+                        heading: ['Poppins', 'Hind Siliguri', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism Styles for Dark & Light Mode */
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .glass-nav {
+            background: rgba(10, 15, 29, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+
+        /* Responsive masonry portfolio gallery */
+        .masonry-grid { columns: 1; column-gap: 1rem; }
+        @media (min-width: 560px) { .masonry-grid { columns: 2; } }
+        @media (min-width: 900px) { .masonry-grid { columns: 3; column-gap: 1.25rem; } }
+        @media (min-width: 1200px) { .masonry-grid { columns: 4; } }
+        .masonry-card { display: inline-block; width: 100%; margin: 0 0 1rem; break-inside: avoid; overflow: hidden; border-radius: 1rem; border: 1px solid rgba(148,163,184,.18); background: rgba(15,23,42,.45); }
+        .masonry-card[hidden] { display: none !important; }
+        .masonry-category-heading { column-span: all; display: block; width: 100%; text-align: left; cursor: pointer; margin: .55rem 0; padding: .9rem 1rem; border: 1px solid rgba(6,182,212,.28); border-left: 4px solid #06b6d4; border-radius: .75rem; background: rgba(8,145,178,.10); color: inherit; font-weight: 700; font-size: 1.05rem; break-inside: avoid; transition: background .2s, transform .2s; }
+        .masonry-category-heading:hover { background: rgba(8,145,178,.18); transform: translateY(-1px); }
+        .masonry-category-heading[hidden] { display: none !important; }
+        .masonry-category-heading:first-child { margin-top: 0; }
+        .masonry-card button { display: block; width: 100%; border: 0; padding: 0; background: transparent; cursor: zoom-in; text-align: left; }
+        .masonry-card img { display: block; width: 100%; height: auto; min-height: 140px; object-fit: cover; transition: transform 350ms ease, filter 350ms ease; }
+        .masonry-card button:hover img, .masonry-card button:focus-visible img { transform: scale(1.035); filter: saturate(1.12); }
+        .masonry-card button:focus-visible { outline: 3px solid #22d3ee; outline-offset: -3px; }
+        .masonry-caption { padding: .85rem 1rem 1rem; }
+        [hidden] { display: none !important; }
+        .gallery-filter { border: 1px solid rgba(148,163,184,.3); border-radius: 999px; padding: .55rem .95rem; font-size: .85rem; transition: background .2s, color .2s, border-color .2s; }
+        .gallery-filter[aria-pressed="true"] { color: #fff; background: #0891b2; border-color: #0891b2; }
+        #travel-subfilters { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; padding: .7rem; margin: 0 auto 1.75rem; max-width: 850px; border: 1px solid rgba(34,211,238,.2); border-radius: 1.25rem; background: linear-gradient(135deg, rgba(8,145,178,.09), rgba(99,102,241,.09)); }
+        #travel-subfilters[hidden] { display: none !important; }
+        .travel-destination { min-width: 0; padding: .48rem .72rem; border: 1px solid rgba(148,163,184,.35); border-radius: 1rem; background: rgba(15,23,42,.58); color: inherit; font-size: .78rem; font-weight: 700; letter-spacing: .02em; box-shadow: 0 5px 18px rgba(2,6,23,.08); transition: transform .2s, border-color .2s, background .2s, box-shadow .2s; }
+        .travel-destination::before { content: '⌖'; margin-right: .5rem; color: #22d3ee; font-size: 1.1rem; }
+        .travel-destination:hover { transform: translateY(-3px); border-color: #22d3ee; box-shadow: 0 10px 24px rgba(8,145,178,.16); }
+        .travel-destination[aria-pressed="true"] { color: #fff; background: linear-gradient(120deg,#0891b2,#4f46e5); border-color: transparent; }
+        html.light .travel-destination { color: #1e293b; background: #fff; }
+        html.light .travel-destination[aria-pressed="true"] { color: #fff; background: linear-gradient(120deg,#0891b2,#4f46e5); }
+        .gallery-lightbox[hidden] { display: none !important; }
+        .gallery-lightbox { position: fixed; inset: 0; z-index: 120; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgba(2,6,23,.9); backdrop-filter: blur(8px); }
+        .gallery-lightbox img { max-width: min(92vw, 1100px); max-height: 84vh; object-fit: contain; border-radius: .75rem; }
+        .gallery-lightbox-close { position: absolute; top: 1rem; right: 1rem; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4); color: white; background: rgba(15,23,42,.8); font-size: 1.5rem; }
+        @media (prefers-reduced-motion: reduce) { .masonry-card img { transition: none; } }
+
+        /* Subtle motion and accessible scroll reveals */
+        html { scroll-behavior: smooth; }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 650ms ease, transform 650ms cubic-bezier(.2,.7,.2,1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gallery-item {
+            cursor: pointer;
+            transform: translateY(0);
+            transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+        }
+        .gallery-item:hover, .gallery-item:focus-visible {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 38px rgba(6, 182, 212, .13);
+            outline: none;
+        }
+        .gallery-item:focus-visible { box-shadow: 0 0 0 3px rgba(6, 182, 212, .55); }
+        .gallery-preview {
+            transition: transform 350ms ease, filter 350ms ease;
+        }
+        .gallery-item:hover .gallery-preview,
+        .gallery-item:focus-visible .gallery-preview {
+            transform: scale(1.04);
+            filter: saturate(1.15);
+        }
+        .gallery-item.is-filtering-out {
+            opacity: 0;
+            transform: scale(.96);
+            pointer-events: none;
+        }
+        #gallery-modal[hidden] { display: none !important; }
+        #gallery-modal {
+            position: fixed; inset: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.25rem; background: rgba(2, 6, 23, .82);
+            backdrop-filter: blur(10px);
+        }
+        .gallery-modal-panel {
+            width: min(100%, 560px); max-height: 90vh; overflow: auto;
+            border: 1px solid rgba(148, 163, 184, .25);
+            border-radius: 1.5rem; padding: 2rem; text-align: center;
+            background: #0f172a; color: #e2e8f0;
+            box-shadow: 0 25px 80px rgba(0,0,0,.35);
+            animation: modal-pop 220ms ease-out;
+        }
+        .light .gallery-modal-panel { background: #fff; color: #1e293b; }
+        @keyframes modal-pop {
+            from { opacity: 0; transform: translateY(10px) scale(.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .reveal-on-scroll { opacity: 1; transform: none; }
+        }
+
+
+        /* Refined light theme: warmer canvas, clearer contrast, and polished cards */
+        html.light body { background: #f1f5f9 !important; color: #172033 !important; }
+        html.light .glass-card { background: rgba(255,255,255,.96); border-color: #dbe4ee; box-shadow: 0 14px 34px rgba(15,23,42,.08); }
+        html.light .glass-nav { background: rgba(248,250,252,.97); border-bottom-color: #dbe4ee; box-shadow: 0 5px 22px rgba(15,23,42,.06); }
+        html.light section { color: #1e293b; }
+        html.light .masonry-card { background: #fff; border-color: #dbe4ee; box-shadow: 0 8px 24px rgba(15,23,42,.07); }
+        html.light .masonry-caption { background: #fff; color: #1e293b; }
+        html.light .masonry-category-heading { color: #0f172a; background: linear-gradient(110deg,#e0f2fe,#f8fafc); border-color: #bae6fd; border-left-color: #0891b2; }
+        html.light .gallery-filter { color: #334155; background: #fff; border-color: #cbd5e1; }
+        html.light .gallery-filter[aria-pressed="true"] { color: #fff; background: linear-gradient(120deg,#0891b2,#2563eb); border-color: transparent; }
+        html.light .light-readable { color: #fff !important; text-shadow: 0 2px 10px rgba(2,6,23,.38); }
+        html.light .ambient-glow { opacity: .32; }
+        section[id] { scroll-margin-top: 100px; }
+        #portfolio { opacity: 1 !important; transform: none !important; scroll-margin-top: 96px; }
+        #gallery-filters { scroll-margin-top: 104px; }
+        #portfolio img { background: #e2e8f0; }
+        .masonry-category-heading { column-span: all; display: block; width: 100%; break-inside: avoid; margin: 1.25rem 0 .9rem; padding: .85rem 1rem; border: 1px solid rgba(6,182,212,.28); border-left: 4px solid #06b6d4; border-radius: 1rem; font-size: 1.1rem; font-weight: 800; text-align: left; background: rgba(15,23,42,.55); color: #f8fafc; cursor: pointer; }
+        .masonry-category-heading:first-child { margin-top: 0; }
+        .masonry-card { break-inside: avoid; margin-bottom: 1rem; }
+        #masonry-gallery .masonry-card[hidden], #masonry-gallery .masonry-category-heading[hidden] { display: none !important; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        .dark ::-webkit-scrollbar-track { background: #0a0f1d; }
+        .light ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-darkbg text-slate-200 dark:bg-darkbg dark:text-slate-200 light:bg-lightbg light:text-slate-800 transition-colors duration-300 font-sans selection:bg-cyan-500 selection:text-white antialiased">
+
+    <!-- Ambient Glow Effects -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-cyan-600/15 rounded-full filter blur-[120px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 right-10 w-96 h-96 bg-emerald-600/15 rounded-full filter blur-[120px] pointer-events-none -z-10"></div>
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#about" class="text-xl sm:text-2xl font-bold font-heading tracking-tight flex items-center gap-2 group">
+                <span class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden border-2 border-cyan-400/70 shadow-lg group-hover:scale-105 transition-transform flex-shrink-0 bg-slate-200">
+                    <img src="https://i.ibb.co.com/20RxNwSV/image.jpg" alt="Labonno Barman logo" class="w-full h-full object-cover" loading="eager">
+                </span>
+                <span class="dark:text-white text-slate-900">Labonno <span class="text-cyan-500">Barman</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-6 font-medium text-sm dark:text-slate-300 text-slate-700">
+                <a href="#about" class="hover:text-cyan-500 transition-colors" data-en="About" data-bn="সম্পর্কে">সম্পর্কে</a>
+                <a href="#education" class="hover:text-cyan-500 transition-colors" data-en="Education" data-bn="শিক্ষা">শিক্ষা</a>
+                <a href="#skills" class="hover:text-cyan-500 transition-colors" data-en="Skills" data-bn="দক্ষতা">দক্ষতা</a>
+                <a href="#portfolio" class="hover:text-cyan-500 transition-colors" data-en="Showcase" data-bn="গ্যালারি">গ্যালারি</a>
+                <a href="#contact" class="hover:text-cyan-500 transition-colors" data-en="Contact" data-bn="যোগাযোগ">যোগাযোগ</a>
+            </nav>
+
+            <!-- Action Controls: Language Switcher, Theme Switcher, CTA -->
+            <div class="flex items-center gap-3">
+                <!-- Language Toggle Button -->
+                <button id="lang-toggle" class="px-3 py-1.5 rounded-lg border border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-cyan-400 bg-slate-200 text-slate-800 font-mono text-xs font-semibold hover:border-cyan-500 transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-language text-sm"></i>
+                    <span id="lang-text">EN</span>
+                </button>
+
+                <!-- Dark / Light Theme Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle Theme" class="w-9 h-9 rounded-lg border border-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-amber-400 bg-slate-200 text-slate-800 hover:border-cyan-500 transition-all flex items-center justify-center">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
+
+                <!-- Desktop CTA -->
+                <a href="#contact" class="hidden sm:inline-flex px-5 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium text-sm shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all" data-en="Connect" data-bn="যোগাযোগ">
+                    যোগাযোগ
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" aria-label="Toggle menu" class="lg:hidden text-2xl dark:text-slate-300 text-slate-700 p-1">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-card border-t border-slate-800 px-6 py-6 flex flex-col gap-3 text-center">
+            <a href="#about" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="About" data-bn="সম্পর্কে">সম্পর্কে</a>
+            <a href="#education" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Education" data-bn="শিক্ষা">শিক্ষা</a>
+            <a href="#skills" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Skills" data-bn="দক্ষতা">দক্ষতা</a>
+            <a href="#portfolio" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Showcase" data-bn="গ্যালারি">গ্যালারি</a>
+            <a href="#contact" class="mobile-link dark:text-slate-300 text-slate-800 hover:text-cyan-500 font-medium py-2" data-en="Contact" data-bn="যোগাযোগ">যোগাযোগ</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="about" class="min-h-screen flex items-center pt-24 pb-12 px-6 relative">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Left Bio Column -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <!-- Location Tag -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full dark:bg-slate-800/80 bg-slate-200 border dark:border-slate-700 border-slate-300 text-cyan-500 text-xs sm:text-sm font-medium">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span data-en="Thakurgaon, Bangladesh" data-bn="ঠাকুরগাঁও, বাংলাদেশ">ঠাকুরগাঁও, বাংলাদেশ</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-heading tracking-tight leading-tight text-white">
+                    <span data-en="Hi, I'm" data-bn="হাই, আমি">হাই, আমি</span> <br>
+                    <span class="gradient-text">লাবণ্য বর্মন</span>
+                </h1>
+
+                <!-- Dynamic Typing Banner -->
+                <div class="text-lg sm:text-2xl font-medium dark:text-slate-300 text-slate-700 h-8 flex items-center justify-center lg:justify-start">
+                    <span id="typing-text" class="light-readable text-cyan-500 font-semibold"></span>
+                    <span class="animate-ping inline-block w-1.5 h-6 bg-cyan-500 ml-1"></span>
+                </div>
+
+                <p class="dark:text-slate-400 text-slate-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed" data-en="Student, Guitarist, Visual Content Creator, and Tech Enthusiast from Thakurgaon, Bangladesh. Dedicated to academic growth and creative exploration." data-bn="ঠাকুরগাঁওয়ের একজন বিজ্ঞান বিভাগের শিক্ষার্থী, গিটারিস্ট, ভিজ্যুয়াল কনটেন্ট ক্রিয়েটর এবং প্রযুক্তি প্রেমী। পড়াশোনার পাশাপাশি সৃজনশীল কাজে নিজেকে যুক্ত রাখতে ভালোবাসি।">
+                    ঠাকুরগাঁওয়ের একজন বিজ্ঞান বিভাগের শিক্ষার্থী, গিটারিস্ট, ভিজ্যুয়াল কনটেন্ট ক্রিয়েটর এবং প্রযুক্তি প্রেমী। পড়াশোনার পাশাপাশি সৃজনশীল কাজে নিজেকে যুক্ত রাখতে ভালোবাসি।
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                    <a href="#portfolio" class="px-7 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold shadow-lg shadow-cyan-500/20 hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                        <span data-en="View Showcase" data-bn="গ্যালারি দেখুন">গ্যালারি দেখুন</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                    <a href="#contact" class="px-7 py-3 rounded-xl dark:bg-slate-800/80 bg-slate-200 dark:text-slate-200 text-slate-800 border dark:border-slate-700 border-slate-300 font-semibold hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span data-en="Get In Touch" data-bn="যোগাযোগ করুন">যোগাযোগ করুন</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Hero Card / Profile Display -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-md">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-3xl blur-xl opacity-30"></div>
+                    
+                    <div class="relative glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+                        <div class="relative w-36 h-36 mx-auto rounded-2xl overflow-hidden border-2 border-cyan-500/50 p-1 dark:bg-slate-900 bg-slate-100">
+                            <div class="w-full h-full rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 flex flex-col items-center justify-center text-white text-center">   
+                         <img src="https://i.ibb.co.com/20RxNwSV/image.jpg" alt="Labonno Barman" class="w-full h-full object-cover rounded-xl">
+                            </div>
+                        </div>
+
+                        <div class="text-center space-y-2">
+                            <h3 class="text-xl font-bold dark:text-white text-slate-900 font-heading">Labonno Barman</h3>
+                            <p class="text-xs text-cyan-500 font-mono" data-en=" Student | Creative Enthusiast" data-bn=" শিক্ষার্থী | ক্রিয়েটিভ স্পিরিট">শিক্ষার্থী | ক্রিয়েটিভ স্পিরিট</p>
+                        </div>
+
+                        <!-- Education Quick Highlights -->
+                        <div class="space-y-2 pt-2">
+                            <div class="p-3 rounded-xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 flex items-center justify-between text-xs">
+                                <span class="dark:text-slate-400 text-slate-600 font-medium" data-en="SSC Result:" data-bn="এসএসসি ফলাফল:">এসএসসি ফলাফল:</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-bold border border-emerald-500/30">
+                                    <i class="fa-solid fa-star text-amber-400 mr-1"></i>Golden GPA-5
+                                </span>
+                            </div>
+                            <div class="p-3 rounded-xl dark:bg-slate-900/80 bg-slate-100 border dark:border-slate-800 border-slate-200 flex items-center justify-between text-xs">
+                                <span class="dark:text-slate-400 text-slate-600 font-medium" data-en="HSC Status:" data-bn="এইচএসসি স্থিতি:">এইচএসসি স্থিতি:</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-500 font-bold border border-cyan-500/30" data-en="Science Stream" data-bn="বিজ্ঞান বিভাগ">
+                                    বিজ্ঞান বিভাগ
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 px-6 dark:bg-slate-950/40 bg-slate-100/60 border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Academic Journey" data-bn="শিক্ষাগত যোগ্যতা">শিক্ষাগত যোগ্যতা</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Education Badges" data-bn="শিক্ষা সম্পর্কিত অর্জন">শিক্ষা সম্পর্কিত অর্জন</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- SSC Badge -->
+                <div class="glass-card p-8 rounded-2xl border-2 border-emerald-500/40 relative overflow-hidden group hover:shadow-xl transition-all">
+                    <div class="absolute -top-3 -right-3 w-16 h-16 bg-emerald-500/20 rounded-full blur-lg"></div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-mono text-emerald-500" data-en="Completed" data-bn="উত্তীর্ণ">উত্তীর্ণ</span>
+                            <h4 class="text-xl font-bold dark:text-white text-slate-900 font-heading">SSC Examination</h4>
+                        </div>
+                    </div>
+                    <div class="my-4 p-4 rounded-xl dark:bg-slate-900/90 bg-emerald-50/80 border border-emerald-500/30 flex items-center justify-between">
+                        <span class="dark:text-slate-300 text-slate-700 font-semibold text-sm" data-en="Achievement:" data-bn="অর্জিত ফলাফল:">অর্জিত ফলাফল:</span>
+                        <span class="px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-500/30">
+                            Golden GPA-5.00
+                        </span>
+                    </div>
+                    <p class="dark:text-slate-400 text-slate-600 text-sm leading-relaxed" data-en="Achieved Golden GPA 5.00 with distinction in Secondary School Certificate examination." data-bn="মাধ্যমিক স্কুল সার্টিফিকেট পরীক্ষায় সকল বিষয়ে কৃতিত্বের সাথে গোল্ডেন জিপিএ ৫.০০ অর্জিত।">
+                        মাধ্যমিক স্কুল সার্টিফিকেট পরীক্ষায় সকল বিষয়ে কৃতিত্বের সাথে গোল্ডেন জিপিএ ৫.০০ অর্জিত।
+                    </p>
+                </div>
+
+                <!-- HSC Badge -->
+                <div class="glass-card p-8 rounded-2xl border-2 border-cyan-500/40 relative overflow-hidden group hover:shadow-xl transition-all">
+                    <div class="absolute -top-3 -right-3 w-16 h-16 bg-cyan-500/20 rounded-full blur-lg"></div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-mono text-cyan-500" data-en="Current Academic Track" data-bn="চলমান পড়াশোনা">চলমান পড়াশোনা</span>
+                            <h4 class="text-xl font-bold dark:text-white text-slate-900 font-heading">HSC Science</h4>
+                        </div>
+                    </div>
+                    <div class="my-4 p-4 rounded-xl dark:bg-slate-900/90 bg-cyan-50/80 border border-cyan-500/30 flex items-center justify-between">
+                        <span class="dark:text-slate-300 text-slate-700 font-semibold text-sm" data-en="Group:" data-bn="শাখা:">শাখা:</span>
+                        <span class="px-3 py-1 rounded-full bg-cyan-500 text-white text-xs font-bold shadow-md shadow-cyan-500/30" data-en="Science Stream" data-bn="বিজ্ঞান বিভাগ">
+                            বিজ্ঞান বিভাগ
+                        </span>
+                    </div>
+                    <p class="dark:text-slate-400 text-slate-600 text-sm leading-relaxed" data-en="Currently pursuing Higher Secondary Certificate in Science focusing on Physics, Chemistry, and Mathematics." data-bn="পদার্থবিজ্ঞান, রসায়ন ও উচ্চতর গণিত নিয়ে উচ্চ মাধ্যমিক বিজ্ঞান বিভাগে পড়াশোনা চলমান।">
+                        পদার্থবিজ্ঞান, রসায়ন ও উচ্চতর গণিত নিয়ে উচ্চ মাধ্যমিক বিজ্ঞান বিভাগে পড়াশোনা চলমান।
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6 relative border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Capabilities" data-bn="দক্ষতা ও শখ">দক্ষতা ও শখ</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Skills Breakdown" data-bn="আমার স্কিলসমূহ">আমার স্কিলসমূহ</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Photography -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Photography" data-bn="ফটোগ্রাফি">ফটোগ্রাফি</h4>
+                        </div>
+                        <span class="text-xs font-mono text-cyan-500">85%</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Nature, portraits, light framing, and composition." data-bn="প্রকৃতি, পোর্ট্রেট এবং ফ্রেম কম্পোজিশন।">প্রকৃতি, পোর্ট্রেট এবং ফ্রেম কম্পোজিশন।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-cyan-500 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+
+                <!-- Guitar Playing (NEW) -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform border border-amber-500/30">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-guitar"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Guitar Playing" data-bn="গিটার বাজানো">গিটার বাজানো</h4>
+                        </div>
+                        <span class="text-xs font-mono text-amber-500">Acoustic</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Acoustic chord progressions, rhythm, and melodies." data-bn="একোস্টিক গিটার কর্ড, রিদম এবং সুরের চর্চা।">একোস্টিক গিটার কর্ড, রিদম এবং সুরের চর্চা।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500 rounded-full" style="width: 75%"></div>
+                    </div>
+                </div>
+
+                <!-- Fast Typing (UPDATED 30+ WPM) -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-keyboard"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Fast Typing" data-bn="দ্রুত টাইপিং">দ্রুত টাইপিং</h4>
+                        </div>
+                        <span class="text-xs font-mono text-emerald-500">30+ WPM</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Accurate speed typing in Bangla and English." data-bn="বাংলা ও ইংরেজিতে নির্ভুল এবং দ্রুত টাইপিং।">বাংলা ও ইংরেজিতে নির্ভুল এবং দ্রুত টাইপিং।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-emerald-500 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <!-- Computer & IT -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-desktop"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Computer & IT" data-bn="কম্পিউটার ও আইটি">কম্পিউটার ও আইটি</h4>
+                        </div>
+                        <span class="text-xs font-mono text-blue-500">88%</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="MS Office, internet research, system maintenance." data-bn="কম্পিউটার পরিচালনা, ইন্টারনেট ও প্রয়োজনীয় সফটওয়্যার ব্যবহার।">কম্পিউটার পরিচালনা, ইন্টারনেট ও প্রয়োজনীয় সফটওয়্যার ব্যবহার।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-blue-500 rounded-full" style="width: 88%"></div>
+                    </div>
+                </div>
+
+                <!-- Photo & Video Editing -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Editing" data-bn="ফটো ও ভিডিও এডিটিং">ফটো ও ভিডিও এডিটিং</h4>
+                        </div>
+                        <span class="text-xs font-mono text-purple-500">80%</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Color grading, photo retouching, and short clips." data-bn="ছবি রিটাচিং, কালার টিউনিং ও কনটেন্ট এডিটিং।">ছবি রিটাচিং, কালার টিউনিং ও কনটেন্ট এডিটিং।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-purple-500 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <!-- Traveling -->
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-rose-500/10 text-rose-500 flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-compass"></i>
+                            </div>
+                            <h4 class="font-bold dark:text-white text-slate-900 font-heading" data-en="Traveling" data-bn="ভ্রমণ ও অন্বেষণ">ভ্রমণ ও অন্বেষণ</h4>
+                        </div>
+                        <span class="text-xs font-mono text-rose-500">Explorer</span>
+                    </div>
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mb-4" data-en="Exploring Bangladesh nature and cultural spots." data-bn="নতুন জায়গা ঘুরে দেখা এবং প্রকৃতির সৌন্দর্য উপভোগ করা।">নতুন জায়গা ঘুরে দেখা এবং প্রকৃতির সৌন্দর্য উপভোগ করা।</p>
+                    <div class="w-full h-2 dark:bg-slate-800 bg-slate-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-rose-500 rounded-full" style="width: 95%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Masonry Portfolio Gallery -->
+    <section id="portfolio" class="reveal-on-scroll py-20 px-6 dark:bg-slate-950/40 bg-slate-100/60 border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="My Gallery" data-bn="আমার গ্যালারি">আমার গ্যালারি</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Moments, Memories & Milestones" data-bn="স্মৃতি, মুহূর্ত ও অর্জন">স্মৃতি, মুহূর্ত ও অর্জন</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+                <p class="text-sm dark:text-slate-400 text-slate-600 mt-4" data-en="Browse the gallery by category. Open personal photos on Instagram to view the original post." data-bn="বিভাগ অনুযায়ী ছবি দেখুন। Personal Photos-এর আসল পোস্ট দেখতে Instagram-এ যান।">বিভাগ অনুযায়ী ছবি দেখুন। Personal Photos-এর আসল পোস্ট দেখতে Instagram-এ যান।</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 mb-8" id="gallery-filters" aria-label="Gallery categories">
+                <button type="button" class="gallery-filter" data-filter="all" aria-pressed="true">All</button>
+                <button type="button" class="gallery-filter" data-filter="Personal photos" aria-pressed="false">Personal Photos</button>
+                <button type="button" class="gallery-filter" data-filter="Travel" aria-pressed="false">Travel</button>
+                <button type="button" class="gallery-filter" data-filter="Photography" aria-pressed="false">Photography</button>
+                <button type="button" class="gallery-filter" data-filter="Awards" aria-pressed="false">Awards</button>
+                <button type="button" class="gallery-filter" data-filter="Certificates" aria-pressed="false">Certificates</button>
+            </div>
+            <div id="travel-subfilters" aria-label="Travel destinations" hidden>
+                <button type="button" class="travel-destination" data-travel-city-filter="Thakurgaon" aria-pressed="false">Thakurgaon</button>
+                <button type="button" class="travel-destination" data-travel-city-filter="Panchagarh" aria-pressed="false">Panchagarh</button>
+                <button type="button" class="travel-destination" data-travel-city-filter="Dinajpur" aria-pressed="false">Dinajpur</button>
+                <button type="button" class="travel-destination" data-travel-city-filter="Rajshahi" aria-pressed="false">Rajshahi</button>
+                <button type="button" class="travel-destination" data-travel-city-filter="Dhaka" aria-pressed="false">Dhaka</button>
+            </div>
+            <p id="gallery-empty" class="hidden text-center text-sm dark:text-slate-400 text-slate-600 py-8" aria-live="polite">এই বিভাগে এখনো ছবি যোগ করা হয়নি।</p>
+            <div id="masonry-gallery" class="masonry-grid">
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/hFSFfFSV/IMG-20261026-234518.jpg" data-image-alt="Photo 01" aria-label="Open Photo 01">
+                        <img src="https://i.ibb.co.com/hFSFfFSV/IMG-20261026-234518.jpg" alt="Photo 01" loading="eager" fetchpriority="high" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/ZbBdsbF/IMG-20261026-234450.jpg" data-image-alt="Photo 02" aria-label="Open Photo 02">
+                        <img src="https://i.ibb.co.com/ZbBdsbF/IMG-20261026-234450.jpg" alt="Photo 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/NdmMp2Mv/IMG-20261026-234431.jpg" data-image-alt="Photo 03" aria-label="Open Photo 03">
+                        <img src="https://i.ibb.co.com/NdmMp2Mv/IMG-20261026-234431.jpg" alt="Photo 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/v4BS7CXB/IMG-20261026-234405.jpg" data-image-alt="Photo 04" aria-label="Open Photo 04">
+                        <img src="https://i.ibb.co.com/v4BS7CXB/IMG-20261026-234405.jpg" alt="Photo 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/zW9GWfDD/IMG-20261026-234340.jpg" data-image-alt="Photo 05" aria-label="Open Photo 05">
+                        <img src="https://i.ibb.co.com/zW9GWfDD/IMG-20261026-234340.jpg" alt="Photo 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/JjZpQkDd/IMG-20261026-234246.jpg" data-image-alt="Photo 06" aria-label="Open Photo 06">
+                        <img src="https://i.ibb.co.com/JjZpQkDd/IMG-20261026-234246.jpg" alt="Photo 06" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 06</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/JRksKpts/IMG-20261026-234308.jpg" data-image-alt="Photo 07" aria-label="Open Photo 07">
+                        <img src="https://i.ibb.co.com/JRksKpts/IMG-20261026-234308.jpg" alt="Photo 07" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 07</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/fzGqy8RV/IMG-20261026-234228.jpg" data-image-alt="Photo 08" aria-label="Open Photo 08">
+                        <img src="https://i.ibb.co.com/fzGqy8RV/IMG-20261026-234228.jpg" alt="Photo 08" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 08</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/vxX3B8st/IMG-20261026-234208.jpg" data-image-alt="Photo 09" aria-label="Open Photo 09">
+                        <img src="https://i.ibb.co.com/vxX3B8st/IMG-20261026-234208.jpg" alt="Photo 09" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 09</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/WNjX9pNh/IMG-20261026-234152.jpg" data-image-alt="Photo 10" aria-label="Open Photo 10">
+                        <img src="https://i.ibb.co.com/WNjX9pNh/IMG-20261026-234152.jpg" alt="Photo 10" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 10</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/8nwWmFQM/IMG-20261026-234136.jpg" data-image-alt="Photo 11" aria-label="Open Photo 11">
+                        <img src="https://i.ibb.co.com/8nwWmFQM/IMG-20261026-234136.jpg" alt="Photo 11" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 11</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Photography">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/kg0qrtBv/IMG-20261026-234109.jpg" data-image-alt="Photo 12" aria-label="Open Photo 12">
+                        <img src="https://i.ibb.co.com/kg0qrtBv/IMG-20261026-234109.jpg" alt="Photo 12" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Photo 12</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Photography</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Travel photos: Rajshahi -->
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/35FMYV6C/IMG-20261029-184441.jpg" data-image-alt="Rajshahi 01" aria-label="Open Rajshahi 01">
+                        <img src="https://i.ibb.co.com/35FMYV6C/IMG-20261029-184441.jpg" alt="Rajshahi 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/rYG8K2R/IMG-20261029-184124.jpg" data-image-alt="Rajshahi 02" aria-label="Open Rajshahi 02">
+                        <img src="https://i.ibb.co.com/rYG8K2R/IMG-20261029-184124.jpg" alt="Rajshahi 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/5g0h0zq2/IMG-20261029-184455.jpg" data-image-alt="Rajshahi 03" aria-label="Open Rajshahi 03">
+                        <img src="https://i.ibb.co.com/5g0h0zq2/IMG-20261029-184455.jpg" alt="Rajshahi 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/pvtCBJ0Z/IMG-20261029-184414.jpg" data-image-alt="Rajshahi 04" aria-label="Open Rajshahi 04">
+                        <img src="https://i.ibb.co.com/pvtCBJ0Z/IMG-20261029-184414.jpg" alt="Rajshahi 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/qFs05zbb/IMG-20261029-184428.jpg" data-image-alt="Rajshahi 05" aria-label="Open Rajshahi 05">
+                        <img src="https://i.ibb.co.com/qFs05zbb/IMG-20261029-184428.jpg" alt="Rajshahi 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/pv7JxqqB/IMG-20261029-184311.jpg" data-image-alt="Rajshahi 06" aria-label="Open Rajshahi 06">
+                        <img src="https://i.ibb.co.com/pv7JxqqB/IMG-20261029-184311.jpg" alt="Rajshahi 06" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 06</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/W4gnFdSH/IMG-20261029-184112.jpg" data-image-alt="Rajshahi 07" aria-label="Open Rajshahi 07">
+                        <img src="https://i.ibb.co.com/W4gnFdSH/IMG-20261029-184112.jpg" alt="Rajshahi 07" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 07</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/kVrpcB73/IMG-20261029-184100.jpg" data-image-alt="Rajshahi 08" aria-label="Open Rajshahi 08">
+                        <img src="https://i.ibb.co.com/kVrpcB73/IMG-20261029-184100.jpg" alt="Rajshahi 08" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 08</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/S4wL6pFz/IMG-20261029-184256.jpg" data-image-alt="Rajshahi 09" aria-label="Open Rajshahi 09">
+                        <img src="https://i.ibb.co.com/S4wL6pFz/IMG-20261029-184256.jpg" alt="Rajshahi 09" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 09</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/VpzsDnwx/IMG-20261029-184343.jpg" data-image-alt="Rajshahi 10" aria-label="Open Rajshahi 10">
+                        <img src="https://i.ibb.co.com/VpzsDnwx/IMG-20261029-184343.jpg" alt="Rajshahi 10" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 10</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/zTJ1w37n/IMG-20261029-184326.jpg" data-image-alt="Rajshahi 11" aria-label="Open Rajshahi 11">
+                        <img src="https://i.ibb.co.com/zTJ1w37n/IMG-20261029-184326.jpg" alt="Rajshahi 11" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 11</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/h12pZzHg/IMG-20261029-184527.jpg" data-image-alt="Rajshahi 12" aria-label="Open Rajshahi 12">
+                        <img src="https://i.ibb.co.com/h12pZzHg/IMG-20261029-184527.jpg" alt="Rajshahi 12" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 12</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Rajshahi">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/0RZSQ5BH/IMG-20261029-184513.jpg" data-image-alt="Rajshahi 13" aria-label="Open Rajshahi 13">
+                        <img src="https://i.ibb.co.com/0RZSQ5BH/IMG-20261029-184513.jpg" alt="Rajshahi 13" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Rajshahi 13</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Rajshahi</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Travel photos: Dhaka -->
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/C39P90Pc/IMG-20261029-183311.jpg" data-image-alt="Dhaka 01" aria-label="Open Dhaka 01">
+                        <img src="https://i.ibb.co.com/C39P90Pc/IMG-20261029-183311.jpg" alt="Dhaka 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/FbzYqrw0/IMG-20261029-183427.jpg" data-image-alt="Dhaka 02" aria-label="Open Dhaka 02">
+                        <img src="https://i.ibb.co.com/FbzYqrw0/IMG-20261029-183427.jpg" alt="Dhaka 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/DZtXS0y/IMG-20261029-185656.jpg" data-image-alt="Dhaka 03" aria-label="Open Dhaka 03">
+                        <img src="https://i.ibb.co.com/DZtXS0y/IMG-20261029-185656.jpg" alt="Dhaka 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/jPVS0BWn/IMG-20261029-183458.jpg" data-image-alt="Dhaka 04" aria-label="Open Dhaka 04">
+                        <img src="https://i.ibb.co.com/jPVS0BWn/IMG-20261029-183458.jpg" alt="Dhaka 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/t6HN5t8/IMG-20261029-183337.jpg" data-image-alt="Dhaka 05" aria-label="Open Dhaka 05">
+                        <img src="https://i.ibb.co.com/t6HN5t8/IMG-20261029-183337.jpg" alt="Dhaka 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/dsSNMnSX/IMG-20261029-183443.jpg" data-image-alt="Dhaka 06" aria-label="Open Dhaka 06">
+                        <img src="https://i.ibb.co.com/dsSNMnSX/IMG-20261029-183443.jpg" alt="Dhaka 06" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 06</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dhaka">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/TBjN908n/IMG-20261029-183356.jpg" data-image-alt="Dhaka 07" aria-label="Open Dhaka 07">
+                        <img src="https://i.ibb.co.com/TBjN908n/IMG-20261029-183356.jpg" alt="Dhaka 07" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dhaka 07</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dhaka</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Travel photos: Panchagarh -->
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/40v8BCt/IMG-20261029-184653.jpg" data-image-alt="Panchagarh 01" aria-label="Open Panchagarh 01">
+                        <img src="https://i.ibb.co.com/40v8BCt/IMG-20261029-184653.jpg" alt="Panchagarh 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/Y79nL9SK/IMG-20261029-184554.jpg" data-image-alt="Panchagarh 02" aria-label="Open Panchagarh 02">
+                        <img src="https://i.ibb.co.com/Y79nL9SK/IMG-20261029-184554.jpg" alt="Panchagarh 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/yn4yvJXZ/IMG-20261029-183540.jpg" data-image-alt="Panchagarh 03" aria-label="Open Panchagarh 03">
+                        <img src="https://i.ibb.co.com/yn4yvJXZ/IMG-20261029-183540.jpg" alt="Panchagarh 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/0jp6RS4L/IMG-20261029-183554.jpg" data-image-alt="Panchagarh 04" aria-label="Open Panchagarh 04">
+                        <img src="https://i.ibb.co.com/0jp6RS4L/IMG-20261029-183554.jpg" alt="Panchagarh 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/Jj72MNG3/IMG-20261029-183611.jpg" data-image-alt="Panchagarh 05" aria-label="Open Panchagarh 05">
+                        <img src="https://i.ibb.co.com/Jj72MNG3/IMG-20261029-183611.jpg" alt="Panchagarh 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/dsGRBsrZ/IMG-20261029-184704.jpg" data-image-alt="Panchagarh 06" aria-label="Open Panchagarh 06">
+                        <img src="https://i.ibb.co.com/dsGRBsrZ/IMG-20261029-184704.jpg" alt="Panchagarh 06" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 06</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Panchagarh">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/WpNJBPyG/IMG-20260804-091005.jpg" data-image-alt="Panchagarh 07" aria-label="Open Panchagarh 07">
+                        <img src="https://i.ibb.co.com/WpNJBPyG/IMG-20260804-091005.jpg" alt="Panchagarh 07" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Panchagarh 07</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Panchagarh</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Travel photos: Thakurgaon -->
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/kVDtZ7ZB/IMG-20261029-183858.jpg" data-image-alt="Thakurgaon 01" aria-label="Open Thakurgaon 01">
+                        <img src="https://i.ibb.co.com/kVDtZ7ZB/IMG-20261029-183858.jpg" alt="Thakurgaon 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/cSvm9D0p/IMG-20261029-184142.jpg" data-image-alt="Thakurgaon 02" aria-label="Open Thakurgaon 02">
+                        <img src="https://i.ibb.co.com/cSvm9D0p/IMG-20261029-184142.jpg" alt="Thakurgaon 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/cKmkkpTK/IMG-20261029-184042.jpg" data-image-alt="Thakurgaon 03" aria-label="Open Thakurgaon 03">
+                        <img src="https://i.ibb.co.com/cKmkkpTK/IMG-20261029-184042.jpg" alt="Thakurgaon 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/5hSFYJXM/IMG-20261029-183704.jpg" data-image-alt="Thakurgaon 04" aria-label="Open Thakurgaon 04">
+                        <img src="https://i.ibb.co.com/5hSFYJXM/IMG-20261029-183704.jpg" alt="Thakurgaon 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/rfM6cdc0/MG-4995.jpg" data-image-alt="Thakurgaon 05" aria-label="Open Thakurgaon 05">
+                        <img src="https://i.ibb.co.com/rfM6cdc0/MG-4995.jpg" alt="Thakurgaon 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/Q4QfJRq/IMG-9198.jpg" data-image-alt="Thakurgaon 06" aria-label="Open Thakurgaon 06">
+                        <img src="https://i.ibb.co.com/Q4QfJRq/IMG-9198.jpg" alt="Thakurgaon 06" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 06</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/ynf83Sqp/Edit-By-Labonno-25.jpg" data-image-alt="Thakurgaon 07" aria-label="Open Thakurgaon 07">
+                        <img src="https://i.ibb.co.com/ynf83Sqp/Edit-By-Labonno-25.jpg" alt="Thakurgaon 07" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 07</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/LzXL7jpb/IMG-20260511-161905.jpg" data-image-alt="Thakurgaon 08" aria-label="Open Thakurgaon 08">
+                        <img src="https://i.ibb.co.com/LzXL7jpb/IMG-20260511-161905.jpg" alt="Thakurgaon 08" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 08</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/gL36Xkm4/IMG-20261029-185025.jpg" data-image-alt="Thakurgaon 09" aria-label="Open Thakurgaon 09">
+                        <img src="https://i.ibb.co.com/gL36Xkm4/IMG-20261029-185025.jpg" alt="Thakurgaon 09" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 09</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/Q7TyQGNF/IMG-20261029-184945.jpg" data-image-alt="Thakurgaon 10" aria-label="Open Thakurgaon 10">
+                        <img src="https://i.ibb.co.com/Q7TyQGNF/IMG-20261029-184945.jpg" alt="Thakurgaon 10" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 10</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/4GBVbp2/IMG-20261029-184741.jpg" data-image-alt="Thakurgaon 11" aria-label="Open Thakurgaon 11">
+                        <img src="https://i.ibb.co.com/4GBVbp2/IMG-20261029-184741.jpg" alt="Thakurgaon 11" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 11</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/0js131rb/IMG-20261029-183731.jpg" data-image-alt="Thakurgaon 12" aria-label="Open Thakurgaon 12">
+                        <img src="https://i.ibb.co.com/0js131rb/IMG-20261029-183731.jpg" alt="Thakurgaon 12" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 12</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/svVhtxjs/IMG-20261029-185006.jpg" data-image-alt="Thakurgaon 13" aria-label="Open Thakurgaon 13">
+                        <img src="https://i.ibb.co.com/svVhtxjs/IMG-20261029-185006.jpg" alt="Thakurgaon 13" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 13</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/LdKpy4DN/IMG-20261029-183635.jpg" data-image-alt="Thakurgaon 14" aria-label="Open Thakurgaon 14">
+                        <img src="https://i.ibb.co.com/LdKpy4DN/IMG-20261029-183635.jpg" alt="Thakurgaon 14" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 14</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Thakurgaon">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/1WdWhFW/IMG-20261029-184017.jpg" data-image-alt="Thakurgaon 15" aria-label="Open Thakurgaon 15">
+                        <img src="https://i.ibb.co.com/1WdWhFW/IMG-20261029-184017.jpg" alt="Thakurgaon 15" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Thakurgaon 15</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Thakurgaon</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Travel photos: Dinajpur -->
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dinajpur">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/pvYbYR6J/IMG-20261029-184827.jpg" data-image-alt="Dinajpur 01" aria-label="Open Dinajpur 01">
+                        <img src="https://i.ibb.co.com/pvYbYR6J/IMG-20261029-184827.jpg" alt="Dinajpur 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dinajpur 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dinajpur</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dinajpur">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/mCjCJKtn/IMG-20261029-184624.jpg" data-image-alt="Dinajpur 02" aria-label="Open Dinajpur 02">
+                        <img src="https://i.ibb.co.com/mCjCJKtn/IMG-20261029-184624.jpg" alt="Dinajpur 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dinajpur 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dinajpur</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dinajpur">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/bpc9mGp/IMG-20261029-184907.jpg" data-image-alt="Dinajpur 03" aria-label="Open Dinajpur 03">
+                        <img src="https://i.ibb.co.com/bpc9mGp/IMG-20261029-184907.jpg" alt="Dinajpur 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dinajpur 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dinajpur</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dinajpur">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/0ygCVgDc/IMG-20261029-184640.jpg" data-image-alt="Dinajpur 04" aria-label="Open Dinajpur 04">
+                        <img src="https://i.ibb.co.com/0ygCVgDc/IMG-20261029-184640.jpg" alt="Dinajpur 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dinajpur 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dinajpur</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Travel" data-travel-city="Dinajpur">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/ksxwPFsz/IMG-20261029-184918.jpg" data-image-alt="Dinajpur 05" aria-label="Open Dinajpur 05">
+                        <img src="https://i.ibb.co.com/ksxwPFsz/IMG-20261029-184918.jpg" alt="Dinajpur 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Dinajpur 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Travel · Dinajpur</span>
+                        </div>
+                    </div>
+                </article>
+                                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/HLhRjmbL/1793183755528.jpg" data-image-alt="Award 01" aria-label="Open Award 01">
+                        <img src="https://i.ibb.co.com/HLhRjmbL/1793183755528.jpg" alt="Award 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/GfQSFGmX/1793184301036.jpg" data-image-alt="Award 02" aria-label="Open Award 02">
+                        <img src="https://i.ibb.co.com/GfQSFGmX/1793184301036.jpg" alt="Award 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/mCJ4Ynnt/1793193881828.jpg" data-image-alt="Award 03" aria-label="Open Award 03">
+                        <img src="https://i.ibb.co.com/mCJ4Ynnt/1793193881828.jpg" alt="Award 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/5XXGTZKQ/1793194031581.jpg" data-image-alt="Award 04" aria-label="Open Award 04">
+                        <img src="https://i.ibb.co.com/5XXGTZKQ/1793194031581.jpg" alt="Award 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/rfqgwzzC/1793196184393.jpg" data-image-alt="Award 05" aria-label="Open Award 05">
+                        <img src="https://i.ibb.co.com/rfqgwzzC/1793196184393.jpg" alt="Award 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/zV6CLgN3/file-0000000060a48208b4c11cbc0340e26b.png" data-image-alt="Award 06" aria-label="Open Award 06">
+                        <img src="https://i.ibb.co.com/zV6CLgN3/file-0000000060a48208b4c11cbc0340e26b.png" alt="Award 06" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 06</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/XkGyTNQt/1793194113238.jpg" data-image-alt="Award 07" aria-label="Open Award 07">
+                        <img src="https://i.ibb.co.com/XkGyTNQt/1793194113238.jpg" alt="Award 07" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 07</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/F4R160KS/1793194161206.jpg" data-image-alt="Award 08" aria-label="Open Award 08">
+                        <img src="https://i.ibb.co.com/F4R160KS/1793194161206.jpg" alt="Award 08" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 08</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Awards">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/8LhyBSTz/file-000000006dc88208bbddabb89d81aee8.png" data-image-alt="Award 09" aria-label="Open Award 09">
+                        <img src="https://i.ibb.co.com/8LhyBSTz/file-000000006dc88208bbddabb89d81aee8.png" alt="Award 09" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Award 09</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Awards</span>
+                        </div>
+                    </div>
+                </article>
+
+                                <article class="masonry-card" data-category="Certificates">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/Y7j2tw1v/1793195472167.jpg" data-image-alt="Certificate 01" aria-label="Open Certificate 01">
+                        <img src="https://i.ibb.co.com/Y7j2tw1v/1793195472167.jpg" alt="Certificate 01" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Certificate 01</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Certificates</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Certificates">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/S7QQ7B8F/1793196402117.jpg" data-image-alt="Certificate 02" aria-label="Open Certificate 02">
+                        <img src="https://i.ibb.co.com/S7QQ7B8F/1793196402117.jpg" alt="Certificate 02" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Certificate 02</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Certificates</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Certificates">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/bR7NcD53/1793276429070.jpg" data-image-alt="Certificate 03" aria-label="Open Certificate 03">
+                        <img src="https://i.ibb.co.com/bR7NcD53/1793276429070.jpg" alt="Certificate 03" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Certificate 03</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Certificates</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Certificates">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/9H2S0QXd/1793195925956.jpg" data-image-alt="Certificate 04" aria-label="Open Certificate 04">
+                        <img src="https://i.ibb.co.com/9H2S0QXd/1793195925956.jpg" alt="Certificate 04" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Certificate 04</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Certificates</span>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Certificates">
+                    <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/Kcfm2JP9/1793195675971.jpg" data-image-alt="Certificate 05" aria-label="Open Certificate 05">
+                        <img src="https://i.ibb.co.com/Kcfm2JP9/1793195675971.jpg" alt="Certificate 05" loading="lazy" decoding="async">
+                    </button>
+                    <div class="masonry-caption">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="font-semibold dark:text-white text-slate-900">Certificate 05</span>
+                            <span class="text-[11px] uppercase tracking-wider text-cyan-500">Certificates</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/LXqnKHNd/IMG-20261028-203714.jpg" data-image-alt="Personal Photo 1" aria-label="Preview Personal Photo 1" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/LXqnKHNd/IMG-20261028-203714.jpg" alt="Personal Photo 1" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 1</span>
+                            <a href="https://www.instagram.com/p/DNpeFpZP7wo/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/gpt7bgr/IMG-20261028-203735.jpg" data-image-alt="Personal Photo 2" aria-label="Preview Personal Photo 2" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/gpt7bgr/IMG-20261028-203735.jpg" alt="Personal Photo 2" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 2</span>
+                            <a href="https://www.instagram.com/p/DBLXbMbOUQT/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/wFS9bhXN/IMG-20261028-203900.jpg" data-image-alt="Personal Photo 3" aria-label="Preview Personal Photo 3" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/wFS9bhXN/IMG-20261028-203900.jpg" alt="Personal Photo 3" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 3</span>
+                            <a href="https://www.instagram.com/p/DbqTMf-jwr7/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/3mFzpwn3/IMG-20261028-203928.jpg" data-image-alt="Personal Photo 4" aria-label="Preview Personal Photo 4" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/3mFzpwn3/IMG-20261028-203928.jpg" alt="Personal Photo 4" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 4</span>
+                            <a href="https://www.instagram.com/p/DWDj6FDjiH0/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/67tPLjgr/IMG-20261028-203947.jpg" data-image-alt="Personal Photo 5" aria-label="Preview Personal Photo 5" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/67tPLjgr/IMG-20261028-203947.jpg" alt="Personal Photo 5" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 5</span>
+                            <a href="https://www.instagram.com/p/DQ6PH6jj81i/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/tpx6NMdj/IMG-20261028-204011.jpg" data-image-alt="Personal Photo 6" aria-label="Preview Personal Photo 6" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/tpx6NMdj/IMG-20261028-204011.jpg" alt="Personal Photo 6" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 6</span>
+                            <a href="https://www.instagram.com/p/DRv-L1-j5SV/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/hpTypGS/IMG-20261028-204028.jpg" data-image-alt="Personal Photo 7" aria-label="Preview Personal Photo 7" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/hpTypGS/IMG-20261028-204028.jpg" alt="Personal Photo 7" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 7</span>
+                            <a href="https://www.instagram.com/p/DPGNtTOD10O/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <article class="masonry-card" data-category="Personal photos">
+                    <div class="overflow-hidden rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200">
+                        <button type="button" class="masonry-open" data-full-image="https://i.ibb.co.com/HRcD7x2/IMG-20261028-204046.jpg" data-image-alt="Personal Photo 8" aria-label="Preview Personal Photo 8" style="display:block; width:100%; padding:0; border:0; cursor:zoom-in; background:#0f172a;"><img src="https://i.ibb.co.com/HRcD7x2/IMG-20261028-204046.jpg" alt="Personal Photo 8" loading="lazy" style="display:block; width:100%; height:auto; object-fit:cover;"></button>
+                        <div class="p-4 flex items-center justify-between gap-3">
+                            <span class="font-semibold dark:text-white text-slate-900">Personal Photo 8</span>
+                            <a href="https://www.instagram.com/p/DLIZhd8vnxy/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 text-white text-xs font-semibold px-4 py-2 hover:opacity-90 transition-opacity">
+                                <i class="fa-brands fa-instagram"></i> View on Instagram ↗
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <div id="gallery-lightbox" class="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Image preview" hidden>
+        <button type="button" class="gallery-lightbox-close" id="gallery-lightbox-close" aria-label="Close image preview">&times;</button>
+        <img id="gallery-lightbox-image" src="" alt="">
+    </div>
+
+    <!-- Contact & Social Media Section -->
+    <section id="contact" class="reveal-on-scroll py-20 px-6 relative border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-xs font-semibold text-cyan-500 uppercase tracking-widest font-mono mb-2" data-en="Connect With Me" data-bn="যোগাযোগ">যোগাযোগ</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold font-heading dark:text-white text-slate-900" data-en="Social Profiles & Messages" data-bn="সোশ্যাল লিংক ও মেসেজ বক্সে মেসেজ পাঠান">সোশ্যাল লিংক ও মেসেজ পাঠান</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 max-w-5xl mx-auto">
+                <!-- Left Social Cards -->
+                <div class="lg:col-span-5 space-y-4">
+                    <!-- Facebook Profile Link -->
+                    <a href="https://www.facebook.com/mr.barman.22" target="_blank" rel="noopener noreferrer" class="glass-card p-5 rounded-2xl flex items-center justify-between group hover:border-blue-500/50 transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-500 flex items-center justify-center text-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-mono">Facebook</div>
+                                <div class="font-bold dark:text-white text-slate-900">mr.barman.22</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Instagram Profile Link -->
+                    <a href="https://www.instagram.com/mr_labonno_22?xtok=MTBtMjhjaGR4ODkwdQ==" target="_blank" rel="noopener noreferrer" class="glass-card p-5 rounded-2xl flex items-center justify-between group hover:border-pink-500/50 transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-pink-600/20 text-pink-500 flex items-center justify-center text-2xl group-hover:bg-pink-600 group-hover:text-white transition-all">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 font-mono">Instagram</div>
+                                <div class="font-bold dark:text-white text-slate-900">@mr_labonno_22</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-pink-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Location Box -->
+                    <div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-500 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 font-mono" data-en="Location" data-bn="ঠিকানা">ঠিকানা</div>
+                            <div class="font-bold dark:text-white text-slate-900" data-en="Thakurgaon, Bangladesh" data-bn="ঠাকুরগাঁও, বাংলাদেশ">ঠাকুরগাঁও, বাংলাদেশ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Contact Form -->
+                <div class="lg:col-span-7">
+                    <form id="contact-form" action="https://formspree.io/f/xzeeeonv" method="POST" class="glass-card p-8 rounded-2xl space-y-5">
+                        <div>
+                            <label class="block text-xs font-mono dark:text-slate-300 text-slate-700 mb-2" data-en="Your Name" data-bn="আপনার নাম">আপনার নাম</label>
+                            <input type="text" name="name" autocomplete="name" required placeholder="আপনার নাম লিখুন" class="w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 focus:outline-none focus:border-cyan-500 text-sm transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono dark:text-slate-300 text-slate-700 mb-2" data-en="Your Email" data-bn="আপনার ইমেইল">আপনার ইমেইল</label>
+                            <input type="email" name="email" autocomplete="email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 focus:outline-none focus:border-cyan-500 text-sm transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono dark:text-slate-300 text-slate-700 mb-2" data-en="Message" data-bn="বার্তাসমূহ">বার্তাসমূহ</label>
+                            <textarea name="message" rows="4" required placeholder="আপনার বার্তাটি লিখুন..." class="w-full px-4 py-3 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 focus:outline-none focus:border-cyan-500 text-sm transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm shadow-md shadow-cyan-500/20 transition-all flex items-center justify-center gap-2">
+                            <span data-en="Send Message" data-bn="মেসেজ পাঠান">মেসেজ পাঠান</span>
+                            <i class="fa-regular fa-paper-plane"></i>
+                        </button>
+
+                        <div id="form-message" role="status" aria-live="polite" class="hidden text-center text-sm p-3 rounded-xl border"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 dark:bg-slate-950 bg-slate-200 border-t border-slate-800/40 text-center text-xs dark:text-slate-500 text-slate-600">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                © <span id="year"></span> Labonno Barman. All rights reserved.
+            </div>
+            <div class="flex items-center gap-1">
+                Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in Thakurgaon, Bangladesh
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    event.preventDefault();
+                    target.classList.add('is-visible');
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    history.replaceState(null, '', link.getAttribute('href'));
+                }
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+        document.querySelectorAll('a[href^="#"]:not(.mobile-link)').forEach(link => {
+            link.addEventListener('click', () => {
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) target.classList.add('is-visible');
+            });
+        });
+
+        // Language Switcher (Bangla <-> English)
+        let currentLang = 'bn';
+        const langToggle = document.getElementById('lang-toggle');
+        const langText = document.getElementById('lang-text');
+
+        const phrasesBN = [
+            "এইচএসসি বিজ্ঞান বিভাগের শিক্ষার্থী",
+            "এসএসসি গোল্ডেন জিপিএ-৫ অর্জনকারী",
+            "একোস্টিক গিটার প্র্যাক্টিশনার",
+            "দ্রুত টাইপিং (30+ WPM)",
+            "ফটোগ্রাফি ও ট্রাভেলিং প্রেমী"
+        ];
+        const phrasesEN = [
+            "HSC Science Scholar",
+            "SSC Golden GPA-5 Achiever",
+            "Acoustic Guitarist",
+            "Speed Typist (30+ WPM)",
+            "Visual Photography Enthusiast"
+        ];
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'bn' ? 'en' : 'bn';
+            langText.textContent = currentLang === 'bn' ? 'EN' : 'BN';
+            
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = currentLang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-bn');
+            });
+
+            document.documentElement.lang = currentLang;
+            phraseIdx = 0;
+            charIdx = 0;
+            isDeleting = false;
+            typingTextElement.textContent = '';
+        });
+
+        // Typing Effect Logic
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typingTextElement = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const phrases = currentLang === 'bn' ? phrasesBN : phrasesEN;
+            const currentPhrase = phrases[phraseIdx % phrases.length];
+
+            if (isDeleting) {
+                typingTextElement.textContent = currentPhrase.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typingTextElement.textContent = currentPhrase.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            if (!isDeleting && charIdx === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 2000);
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                setTimeout(typeEffect, 500);
+            } else {
+                setTimeout(typeEffect, isDeleting ? 40 : 90);
+            }
+        }
+        typeEffect();
+
+        // Dark / Light Mode Switcher
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        // Masonry gallery category filters and image lightbox
+        const galleryCards = Array.from(document.querySelectorAll('.masonry-card'));
+        const galleryFilters = Array.from(document.querySelectorAll('.gallery-filter'));
+        const galleryEmpty = document.getElementById('gallery-empty');
+        const lightbox = document.getElementById('gallery-lightbox');
+        const lightboxImage = document.getElementById('gallery-lightbox-image');
+        const lightboxClose = document.getElementById('gallery-lightbox-close');
+        let lastGalleryTrigger = null;
+        const masonryGallery = document.getElementById('masonry-gallery');
+        const galleryCategories = [
+            { key: 'Personal photos', label: 'Personal Photos' },
+            { key: 'Travel', label: 'Travel' },
+            { key: 'Photography', label: 'Photography' },
+            { key: 'Awards', label: 'Awards' },
+            { key: 'Certificates', label: 'Certificates' }
+        ];
+        const categoryHeadings = new Map();
+        // Group cards by category in All view; each heading can also be tapped to filter.
+        galleryCategories.forEach(category => {
+            const heading = document.createElement('button');
+            heading.type = 'button';
+            heading.className = 'masonry-category-heading';
+            heading.textContent = category.label;
+            heading.setAttribute('aria-label', 'Show ' + category.label + ' photos');
+            heading.addEventListener('click', () => selectGalleryCategory(category.key, true));
+            categoryHeadings.set(category.key, heading);
+            masonryGallery.appendChild(heading);
+            galleryCards.filter(card => card.dataset.category.split(',').map(value => value.trim()).includes(category.key))
+                .forEach(card => masonryGallery.appendChild(card));
+        });
+
+        const travelSubfilters = document.getElementById('travel-subfilters');
+        let selectedTravelCity = 'all';
+
+        function selectGalleryCategory(selected, shouldScroll = false) {
+            document.querySelectorAll('#gallery-filters [data-filter]').forEach(button => button.setAttribute('aria-pressed', button.dataset.filter === selected ? 'true' : 'false'));
+            travelSubfilters.hidden = selected !== 'Travel';
+            let visibleCount = 0;
+            galleryCards.forEach(card => {
+                const categories = card.dataset.category.split(',').map(value => value.trim());
+                let visible = selected === 'all' || categories.includes(selected);
+                if (visible && selected === 'Travel') {
+                    visible = selectedTravelCity === 'all' || card.dataset.travelCity === selectedTravelCity;
+                }
+                card.hidden = !visible;
+                if (visible) visibleCount++;
+            });
+            categoryHeadings.forEach(heading => { heading.hidden = selected !== 'all'; });
+            galleryEmpty.textContent = selected === 'Travel' && selectedTravelCity !== 'all'
+                ? 'এই জায়গার ছবি এখনো যোগ করা হয়নি।'
+                : 'এই বিভাগে এখনো ছবি যোগ করা হয়নি।';
+            galleryEmpty.classList.toggle('hidden', visibleCount > 0 || selected === 'all');
+            if (shouldScroll) requestAnimationFrame(() => {
+                const portfolioSection = document.getElementById('portfolio');
+                if (portfolioSection) portfolioSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+
+        galleryFilters.forEach(filter => filter.addEventListener('click', () => {
+            if (filter.dataset.filter) {
+                selectedTravelCity = 'all';
+                document.querySelectorAll('[data-travel-city-filter]').forEach(item => item.setAttribute('aria-pressed', 'false'));
+                selectGalleryCategory(filter.dataset.filter, true);
+            }
+        }));
+        document.querySelectorAll('[data-travel-city-filter]').forEach(button => button.addEventListener('click', () => {
+            selectedTravelCity = button.dataset.travelCityFilter;
+            document.querySelectorAll('[data-travel-city-filter]').forEach(item => item.setAttribute('aria-pressed', item === button ? 'true' : 'false'));
+            selectGalleryCategory('Travel');
+        }));
+        document.querySelectorAll('[data-travel-place-filter]').forEach(button => button.addEventListener('click', () => {
+            selectedTravelPlace = button.dataset.travelPlaceFilter;
+            document.querySelectorAll('[data-travel-place-filter]').forEach(item => item.setAttribute('aria-pressed', item === button ? 'true' : 'false'));
+            selectGalleryCategory('Travel');
+        }));
+        selectGalleryCategory('all');
+
+                function closeGalleryLightbox() {
+            lightbox.hidden = true;
+            lightboxImage.src = '';
+            if (lastGalleryTrigger) lastGalleryTrigger.focus();
+        }
+        document.querySelectorAll('.masonry-open').forEach(trigger => trigger.addEventListener('click', () => {
+            lastGalleryTrigger = trigger;
+            lightboxImage.src = trigger.dataset.fullImage;
+            lightboxImage.alt = trigger.dataset.imageAlt || 'Gallery image';
+            lightbox.hidden = false;
+            lightboxClose.focus();
+        }));
+        lightboxClose.addEventListener('click', closeGalleryLightbox);
+        lightbox.addEventListener('click', event => { if (event.target === lightbox) closeGalleryLightbox(); });
+        document.addEventListener('keydown', event => { if (event.key === 'Escape' && !lightbox.hidden) closeGalleryLightbox(); });
+
+        // Reveal sections as they enter the viewport; fall back gracefully.
+        const revealTargets = document.querySelectorAll('section:not(#portfolio)');
+        revealTargets.forEach(section => section.classList.add('reveal-on-scroll'));
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -35px 0px' });
+            revealTargets.forEach(section => revealObserver.observe(section));
+        } else {
+            revealTargets.forEach(section => section.classList.add('is-visible'));
+        }
+
+        // Contact Form: send the message through Formspree
+        const contactForm = document.getElementById('contact-form');
+        const formMessage = document.getElementById('form-message');
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const submitButtonText = submitButton.querySelector('span');
+        const defaultSubmitText = submitButtonText.textContent;
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formMessage.classList.add('hidden');
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-70', 'cursor-wait');
+            submitButtonText.textContent = currentLang === 'bn' ? 'পাঠানো হচ্ছে...' : 'Sending...';
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Message could not be sent.');
+                }
+
+                formMessage.textContent = currentLang === 'bn'
+                    ? 'মেসেজটি সফলভাবে পাঠানো হয়েছে! ধন্যবাদ।'
+                    : 'Your message was sent successfully. Thank you!';
+                formMessage.className = 'text-center text-sm text-emerald-500 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30';
+                contactForm.reset();
+            } catch (error) {
+                formMessage.textContent = currentLang === 'bn'
+                    ? 'দুঃখিত, মেসেজ পাঠানো যায়নি। পরে আবার চেষ্টা করুন।'
+                    : 'Sorry, your message could not be sent. Please try again.';
+                formMessage.className = 'text-center text-sm text-rose-500 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-70', 'cursor-wait');
+                submitButtonText.textContent = defaultSubmitText;
+            }
+        });
+    </script>
+</body>
+</html>
